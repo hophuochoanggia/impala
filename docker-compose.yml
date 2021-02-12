@@ -1,0 +1,27 @@
+version: "3"
+services:
+  sentry:
+    build: .
+    container_name: sentry
+    ports:
+      - 21000:21000
+      - 21050:21050
+      - 25000:25000
+      - 25010:25010
+      - 25020:25020
+      - 8038:8038
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+  kudu-impala:
+    image: apache/kudu:impala-latest
+    command: impala
+    depends_on:
+      - sentry
+    volumes:
+      - ./impala-entrypoint.sh:/impala-entrypoint.sh
+      - ./sentry-site.xml:/sentry-site.xml
+      - ./sentry.ini:/sentry.ini
+    container_name: kudu-impala
+    network_mode: "service:sentry"

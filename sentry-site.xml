@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>sentry.service.security.mode</name>
+        <value>none</value>
+    </property>
+    <property>
+        <name>sentry.hive.provider</name>
+        <value>org.apache.sentry.provider.file.LocalGroupResourceAuthorizationProvider</value>
+    </property>
+    <property>
+        <name>sentry.hive.server</name>
+        <value>server1</value>
+    </property>
+    <property>
+        <name>sentry.hive.provider.backend</name>
+        <value>org.apache.sentry.provider.file.SimpleFileProviderBackend</value>
+    </property>
+    <property>
+        <name>sentry.hive.provider.resource</name>
+        <value>file:/sentry.ini</value>
+    </property>
+    <property>
+        <name>sentry.service.client.server.rpc-addresses</name>
+        <value>0.0.0.0</value>
+    </property>
+
+    <property>
+        <name>sentry.service.allow.connect</name>
+        <value>impala,hive</value>
+    </property>
+    <property>
+        <name>sentry.service.admin.group</name>
+        <value>admin</value>
+    </property>
+    <property>
+        <name>sentry.store.jdbc.url</name>
+        <value>jdbc:derby:;databaseName=metastore_db;create=true</value>
+    </property>
+    <property>
+        <name>sentry.store.jdbc.driver</name>
+        <value>org.apache.derby.jdbc.EmbeddedDriver</value>
+    </property>
+    <property>
+        <name>sentry.store.jdbc.password</name>
+        <value>password</value>
+    </property>
+
+    <property>
+        <name>sentry.store.group.mapping</name>
+        <value>org.apache.sentry.provider.file.LocalGroupMappingService</value>
+    </property>
+    <property>
+        <name>sentry.store.group.mapping.resource</name>
+        <value>./sentry.ini</value>
+    </property>
+
+    <property>
+        <name>sentry.metastore.service.users</name>
+        <value>impala,hive</value>
+        <description>
+            Comma separated list of users
+            List of service users (eg hive, impala) to bypass
+            the Sentry metastore authorization. These
+            services handle the metadata authorization
+            on their side.
+        </description>
+    </property>
+</configuration>
+
