@@ -7,7 +7,8 @@ ARG HADOOP_VERSION=2.10.1
 
 WORKDIR /opt
 
-RUN wget https://downloads.apache.org/sentry/${SENTRY_VERSION}/apache-sentry-${SENTRY_VERSION}-bin.tar.gz \
+RUN apk add --update openssl \
+ && wget https://downloads.apache.org/sentry/${SENTRY_VERSION}/apache-sentry-${SENTRY_VERSION}-bin.tar.gz \
  && wget https://downloads.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
  && tar zxvf apache-sentry-${SENTRY_VERSION}-bin.tar.gz \
  && tar zxvf hadoop-${HADOOP_VERSION}.tar.gz \
