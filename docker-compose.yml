@@ -6,21 +6,6 @@ networks:
 
 services:
   openldap:
-    # image: bitnami/openldap:latest
-    # container_name: openldap
-    # ports:
-    #   - 1389:1389
-    #   - 1636:1636
-    # environment:
-    #   - LDAP_ADMIN_USERNAME=admin
-    #   - LDAP_ADMIN_PASSWORD=adminpassword
-    #   - LDAP_USERS=impala
-    #   - LDAP_PASSWORDS=123456
-    # networks:
-    #   - impala
-    # volumes:
-    #   - ./ldap-data:/bitnami/openldap
-
     image: osixia/openldap:1.4.0
     container_name: openldap
     environment:
@@ -33,8 +18,6 @@ services:
     networks:
       - impala
     volumes:
-      #   - ./ldap-data:/var/lib/ldap
-      #   - ./ldap-config:/etc/ldap/slapd.d
       - ./ldif:/mount
 
   kudu-impala:
@@ -51,7 +34,8 @@ services:
     networks:
       - impala
     volumes:
-      - ./impala-entrypoint.sh:/impala-entrypoint.sh
+      - "./impala-entrypoint.sh:/impala-entrypoint.sh"
+      - "./certificate:/certificate"
       # - ./sentry-site.xml:/sentry-site.xml
       # - ./sentry.ini:/sentry.ini
     container_name: kudu-impala

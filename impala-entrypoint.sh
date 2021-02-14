@@ -72,6 +72,8 @@ function start_impalad() {
   -ldap_passwords_in_clear_ok \
   -ldap_bind_pattern="uid=#UID,dc=example,dc=com" \
   -ldap_uri="ldap://openldap:389" \
+  -ssl_server_certificate="/certificate/cert.pem" \
+  -ssl_private_key="/certificate/key.pem" \
   -abort_on_config_error=false -mem_limit_includes_jvm=true \
   -use_local_catalog=true -rpc_use_loopback=true \
   -kudu_master_hosts=${KUDU_MASTERS} &
