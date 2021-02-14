@@ -62,16 +62,16 @@ function start_statestored() {
 
 function start_catalogd() {
   daemon_entrypoint.sh catalogd -log_dir=${DATA_DIR}/logs \
-  -server_name=server1 \
-  -sentry_config="/sentry-site.xml" \
   -abort_on_config_error=false -catalog_topic_mode=minimal \
   -hms_event_polling_interval_s=0 -invalidate_tables_on_memory_pressure=true &
 }
 
 function start_impalad() {
   daemon_entrypoint.sh impalad -log_dir=${DATA_DIR}/logs \
-  -server_name=server1 \
-  -sentry_config="/sentry-site.xml" \
+  -enable_ldap_auth \
+  -ldap_passwords_in_clear_ok \
+  -ldap_bind_pattern="uid=#UID,dc=example,dc=com" \
+  -ldap_uri="ldap://openldap:389" \
   -abort_on_config_error=false -mem_limit_includes_jvm=true \
   -use_local_catalog=true -rpc_use_loopback=true \
   -kudu_master_hosts=${KUDU_MASTERS} &

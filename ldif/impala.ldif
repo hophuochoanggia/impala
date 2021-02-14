@@ -1,0 +1,16 @@
+dn: uid=impala,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: impala
+uid: impala
+uidNumber: 2
+gidNumber: 100
+homeDirectory: /home/impala
+loginShell: /bin/bash
+gecos: impala
+userPassword: 123456
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0

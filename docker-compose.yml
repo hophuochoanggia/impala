@@ -1,27 +1,57 @@
 version: "3"
+
+networks:
+  impala:
+    driver: bridge
+
 services:
-  sentry:
-    build: .
-    container_name: sentry
+  openldap:
+    # image: bitnami/openldap:latest
+    # container_name: openldap
+    # ports:
+    #   - 1389:1389
+    #   - 1636:1636
+    # environment:
+    #   - LDAP_ADMIN_USERNAME=admin
+    #   - LDAP_ADMIN_PASSWORD=adminpassword
+    #   - LDAP_USERS=impala
+    #   - LDAP_PASSWORDS=123456
+    # networks:
+    #   - impala
+    # volumes:
+    #   - ./ldap-data:/bitnami/openldap
+
+    image: osixia/openldap:1.4.0
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION="My company"
+      - LDAP_DOMAIN=example.com
+      - LDAP_ADMIN_PASSWORD=123456
+    ports:
+      - 389:389
+      - 636:636
+    networks:
+      - impala
+    volumes:
+      #   - ./ldap-data:/var/lib/ldap
+      #   - ./ldap-config:/etc/ldap/slapd.d
+      - ./ldif:/mount
+
+  kudu-impala:
+    image: apache/kudu:impala-latest
+    command: impala
     ports:
       - 21000:21000
       - 21050:21050
       - 25000:25000
       - 25010:25010
       - 25020:25020
-      - 8038:8038
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    restart: unless-stopped
-
-  kudu-impala:
-    image: apache/kudu:impala-latest
-    command: impala
     depends_on:
-      - sentry
+      - openldap
+    networks:
+      - impala
     volumes:
       - ./impala-entrypoint.sh:/impala-entrypoint.sh
-      - ./sentry-site.xml:/sentry-site.xml
-      - ./sentry.ini:/sentry.ini
+      # - ./sentry-site.xml:/sentry-site.xml
+      # - ./sentry.ini:/sentry.ini
     container_name: kudu-impala
-    network_mode: "service:sentry"
